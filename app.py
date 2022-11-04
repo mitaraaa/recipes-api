@@ -26,23 +26,23 @@ def get():
     """
     name = request.args.get("name")
     recipe_id = request.args.get("id")
-    if __xor(name, recipe_id):
+    if name or recipe_id:
         fetched = db.get(name=name, recipe_id=recipe_id)
         if fetched:
-            if type(fetched) == list:
+            if isinstance(fetched, list):
                 return json.dumps(
                     fetched, default=lambda recipe: recipe.json()
                 )
             else:
                 return fetched.json()
 
-    return json.dumps(db.get_all(), default=lambda recipe: recipe.json())
+    return [], 404
 
 
 @app.route("/add", methods=["POST"])
 def add():
     """
-    Adds JSON of recipe to database.
+    Adds recipe JSON to database.
     """
     data = request.get_json()
 
@@ -52,11 +52,7 @@ def add():
             db.add(recipe)
 
             return "OK", 200
-        except Exception:
+        except db.DatabaseException:
             return "Invalid object", 400
 
     return "Invalid object", 400
-
-
-def __xor(a: str, b: str) -> bool:
-    return bool(a) ^ bool(b)
