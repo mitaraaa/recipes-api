@@ -91,6 +91,39 @@ def add_recipe():
     return message("OK", HTTPStatus.OK)
 
 
+@app.route("/favorite/<method>/<recipe_id>", methods=["POST"])
+@login_required
+def favorites(method: str, recipe_id: int):
+    recipe: Recipe = (
+        db.session.query(Recipe).filter_by(recipe_id=recipe_id).first()
+    )
+
+    if not recipe:
+        return message("Not found", HTTPStatus.NOT_FOUND)
+
+    user: User = (
+        db.session.query(User).filter_by(user_id=current_user.user_id).first()
+    )
+
+    print(user.favorite)
+    if method == "add":
+        if not user.favorite:
+            user.favorite = [recipe.recipe_id]
+        else:
+            user.favorite.append(recipe.recipe_id)
+    elif method == "remove" and user.favorite:
+        try:
+            user.favorite.remove(recipe.recipe_id)
+            print(user.favorite)
+        except ValueError:
+            return message("Not found", HTTPStatus.NOT_FOUND)
+
+    db.session.add(user)
+    db.session.commit()
+
+    return message("OK", HTTPStatus.OK)
+
+
 @app.route("/account")
 @login_required
 def account():

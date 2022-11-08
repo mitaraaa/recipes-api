@@ -58,6 +58,14 @@ GET /account
 ```
 POST /recipe/add
 ```
+**[AUTH]** Add recipe to favorites
+```
+POST /favorite/add/<recipe_id>
+```
+**[AUTH]** Remove recipe from favorites
+```
+POST /favorite/remove/<recipe_id>
+```
 **[AUTH]** Log out from account
 ```
 POST /logout

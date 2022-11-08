@@ -1,5 +1,6 @@
 import bcrypt
 import datetime
+from sqlalchemy.ext.mutable import MutableList
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 
@@ -16,7 +17,7 @@ class User(db.Model, UserMixin):
     last_name: str = db.Column(db.Text, nullable=False)
     image: str = db.Column(db.Text, nullable=True)
     authenticated: bool = db.Column(db.Boolean, default=False)
-    favorite = db.Column(db.ARRAY(db.Integer))
+    favorite: MutableList = db.Column(MutableList.as_mutable(db.Integer))
 
     def verify(self, password: str):
         return bcrypt.checkpw(password.encode("utf-8"), self.password)
