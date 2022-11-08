@@ -21,57 +21,86 @@ or
 python -m flask run
 ```
 
-## Examples
-
-### How to make an API call
+## API Routes
 Get all recipes  
 ```
-GET /get
+GET /
 ```
 Get recipe by ID  
 ```
-GET /get?id=1
+GET /recipe/<recipe_id>
 ```
 Get recipes by name  
 ```
-GET /get?name=Duck
+GET /recipe?name=<name>
 ```
-Add recipe (requires recipe JSON in body)  
+Get account data by ID
 ```
-POST /add
+GET /user/<user_id>
+```
+Get account data by login
+```
+GET /user/<login>
+```
+Create new account (requires form-data)
+```
+POST /signup
+```
+Log into account (requires login and password in form-data)
+```
+POST /login
+```
+**[AUTH]** Get own account data 
+```
+GET /account
+```
+**[AUTH]** Add recipe (requires recipe JSON in body)
+```
+POST /recipe/add
+```
+**[AUTH]** Log out from account
+```
+POST /logout
+```
+## Examples
+
+### API Call
+
+```
+GET /recipes/1
 ```
 
 ### Response
 
 ```json
 {
-  "calories": 504,
-  "cooking_time": 1800,
-  "description": "I can't stand those instant banana puddings. This one is old and authentic!",
-  "directions": [
-    "Preheat oven to 350 degrees F (175 degrees C).",
-    "Line the bottom and sides of a 9-inch pie plate with a layer of alternating vanilla wafer crumbs and banana slices.",
-    "To Make Pudding: In a medium saucepan, combine 1 1/2 cups sugar with flour. Mix well, then stir in half the milk. Beat egg yolks and whisk into sugar mixture. Add remaining milk and butter or margarine.",
-    "Place mixture over low heat and cook until thickened, stirring frequently. Remove from heat and stir in vanilla extract. Pour half of pudding over vanilla wafer and banana layer while still hot.",
-    "Make another layer of alternating vanilla wafers and banana slices on top of pudding layer. Pour remaining pudding over second wafer and banana layer.",
-    "To Make Meringue: In a large glass or metal bowl, beat egg whites until foamy. Gradually add 1/4 cup sugar, continuing to beat until whites are stiff. Spread meringue into pie pan, making sure to completely cover pudding layer.",
-    "Bake in preheated oven for 15 minutes, just until meringue is browned. Chill before serving."
-  ],
-  "id": 1,
-  "image": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F7504588.jpg&q=60&c=sc&orient=true&poi=auto&h=512",
-  "ingridients": [
-    "2 cups vanilla wafer crumbs",
-    "3 bananas, sliced into 1/4 inch slices",
-    "1 ½ cups white sugar",
-    "¼ cup all-purpose flour",
-    "2 cups milk",
-    "3 egg yolks",
-    "2 teaspoons butter",
-    "2 teaspoons vanilla extract",
-    "3 egg whites",
-    "¼ cup white sugar"
-  ],
-  "name": "Homemade Banana Pudding Pie"
+    "recipe_id": 1,
+    "name": "Double Layer Pumpkin Cheesecake",
+    "description": "This pumpkin cheesecake is a great alternative to traditional cheesecake — especially for pumpkin pie fans! A thick, creamy cheesecake base topped with a layer of spiced pumpkin cheesecake filling sits on a graham cracker crust in this easy layered holiday dessert. Two flavors of cheesecake in every bite! Serve with a scoop of vanilla ice cream or a dollop of whipped cream.",
+    "image": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F8425283.jpg&q=60&c=sc&orient=true&poi=auto&h=512",
+    "ingridients": [
+        "2 (8 ounce) packages cream cheese, softened",
+        "½ cup white sugar",
+        "½ teaspoon vanilla extract",
+        "2 large eggs",
+        "1 (9 inch) prepared graham cracker crust",
+        "½ cup pumpkin puree",
+        "½ teaspoon ground cinnamon",
+        "1 pinch ground cloves, or more to taste",
+        "1 pinch ground nutmeg, or more to taste"
+    ],
+    "directions": [
+        "Preheat the oven to 325 degrees F (165 degrees C).",
+        "Make cheesecake layer: Beat cream cheese, sugar, and vanilla in a large bowl with an electric mixer until smooth. Add eggs, one at a time, blending well after each addition. Spread 1 cup batter in the graham cracker crust.",
+        "Make pumpkin layer: Add pumpkin puree, cinnamon, cloves, and nutmeg to the remaining batter; stir gently until well blended. Carefully spread on top of plain cheesecake batter in the crust.",
+        "Bake in the preheated oven until the edges are puffed and the surface is firm except for a small spot in the center that jiggled when the pan is gently shaken, 35 to 40 minutes.",
+        "Remove from the oven, set on a wire rack, and cool to room temperature, 1 to 2 hours.",
+        "Refrigerate for at least 3 hours before serving, preferably overnight."
+    ],
+    "cooking_time": 2100,
+    "calories": 415,
+    "posted_at": "2022-11-09T01:37:55.409967",
+    "author_id": 1
 }
 ```
 
@@ -83,7 +112,9 @@ POST /add
 `ingridients` - List of ingridients  
 `directions` - List of steps required for cooking  
 `cooking_time` - Time to cook with given recipe (seconds)  
-`calories` - Amount of calories in one serving (calories)
+`calories` - Amount of calories in one serving (calories)  
+`posted_at` - Local timestamp  
+`author_id` - Author's ID
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
