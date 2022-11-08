@@ -38,14 +38,14 @@ def user_loader(login: str):
 
 
 @app.route("/")
-def index():
+def get_recipes():
     return json.dumps(
         [recipe.json() for recipe in db.session.query(Recipe).all()]
     )
 
 
 @app.route("/recipe/<recipe_id>", methods=["GET"])
-def get_recipe(recipe_id: int):
+def get_recipe_by_id(recipe_id: int):
     recipe: Recipe = (
         db.session.query(Recipe).filter_by(recipe_id=recipe_id).first()
     )
@@ -57,8 +57,12 @@ def get_recipe(recipe_id: int):
 
 
 @app.route("/recipe", methods=["GET"])
-def get_recipe_by_id():
+def get_recipe():
     name: str = request.args.get("name")
+
+    if not name:
+        return message("Search query was not provided", HTTPStatus.BAD_REQUEST)
+
     recipes: list[Recipe] = (
         db.session.query(Recipe).filter(Recipe.name.like(f"%{name}%")).all()
     )
@@ -94,7 +98,7 @@ def account():
 
 
 @app.route("/user/<user_id>")
-def get_user(user_id: int):
+def get_user_by_id(user_id: int):
     if not user_id:
         if current_user.authenticated:
             return url_for("account")
@@ -102,6 +106,19 @@ def get_user(user_id: int):
         return message("Invalid request", HTTPStatus.BAD_REQUEST)
 
     user = db.session.query(User).filter_by(user_id=user_id).first()
+
+    return json.dumps(user.json())
+
+
+@app.route("/user/<login>")
+def get_user_by_login(login: str):
+    if not login:
+        if current_user.authenticated:
+            return url_for("account")
+
+        return message("Invalid request", HTTPStatus.BAD_REQUEST)
+
+    user = db.session.query(User).filter_by(login=login).first()
 
     return json.dumps(user.json())
 
