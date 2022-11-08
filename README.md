@@ -1,5 +1,7 @@
 # 🍳 Recipes API
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5d48f7c13cf24e0ab01a638771a6322a)](https://app.codacy.com/gh/mitaraaa/recipes-api?utm_source=github.com&utm_medium=referral&utm_content=mitaraaa/recipes-api&utm_campaign=Badge_Grade_Settings)
+
 ![GitHub](https://img.shields.io/github/license/mitaraaa/recipes-api)
 ![CodeFactor](https://www.codefactor.io/repository/github/mitaraaa/recipes-api/badge)
 
