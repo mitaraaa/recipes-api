@@ -3,3 +3,4 @@ Flask_Login==0.6.2
 flask_sqlalchemy==3.0.2
 python_bcrypt==0.3.2
 SQLAlchemy==1.4.42
+psycopg2==2.9.4
